@@ -36,7 +36,7 @@ jobs:
           mvn compile com.google.cloud.tools:jib-maven-plugin:3.2.1:build \
             -Djib.from.image=eclipse-temurin:17.0.4_8-jre-alpine \
             -Djib.to.image=azcontainerbookacr.azurecr.io/todolist \
-            -Djib.to.tags=v1.0.0-rem_17.0.4_8-jre-alpine_$GITHUB_SHA,latest \
+            -Djib.to.tags=v1.0.0-tem_17.0.4_8-jre-alpine_$GITHUB_SHA,latest \
             -Djib.container.endpoint=sh,webapp_startup.sh \
             -Djib.container.port=8080,2222 \
             -Djib.container.environment=JDK_JAVA_OPTIONS="-Xmx512m -XX:StartFlightRecording"
@@ -45,4 +45,4 @@ jobs:
         run: |
           az webapp config container set --resource-group az-container-book \
             --name az-container-book-app --slot slot1 \
-            --docker-custom-image-name azcontainerbookacr.azurecr.io/todolist:v1.0.0-rem_17.0.4_8-jre-alpine_$GITHUB_SHA 
+            --docker-custom-image-name azcontainerbookacr.azurecr.io/todolist:v1.0.0-tem_17.0.4_8-jre-alpine_$GITHUB_SHA 
