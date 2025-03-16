@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ "main"]
-    paths: "todolist"
+    paths: "./todolist"
 
 jobs:
   push_image:
