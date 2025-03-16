@@ -1,7 +1,7 @@
 name: Staging Release(Part 2)
 
 on:
-  work-flow_dispatch:
+  workflow_dispatch:
   push:
     branches: [ "main"]
     paths: "todolist"
