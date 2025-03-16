@@ -10,6 +10,7 @@ jobs:
   push_image:
 
     runs-on: ubuntu-20.04
+    environment: az-container-book-environment
     defaults:
       run:
         shell: bash
