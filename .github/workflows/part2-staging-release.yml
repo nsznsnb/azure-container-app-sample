@@ -14,7 +14,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: todolist
+        working-directory: .
 
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
         run: |
           az config set defaults.acr=azcontainerbookacr
           az acr login
-          mvn compile com.google.cloud.tools:jib-maven-plugin:3.2.1:build \
+          ./mvnw compile com.google.cloud.tools:jib-maven-plugin:3.2.1:build \
             -Djib.from.image=eclipse-temurin:17.0.4_8-jre-alpine \
             -Djib.to.image=azcontainerbookacr.azurecr.io/todolist \
             -Djib.to.tags=v1.0.0-tem_17.0.4_8-jre-alpine_$GITHUB_SHA,latest \
