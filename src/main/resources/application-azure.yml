@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: 'jdbc:mysql://${MYSQL_HOST:localhost}:3306/defaultdb'
+    username: managediduser
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:azuredatabaseschema.sql
+  
