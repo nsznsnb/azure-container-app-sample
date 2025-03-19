@@ -4,7 +4,8 @@ spring:
       ddl-auto: update
   datasource:
     url: 'jdbc:mysql://az-container-mysql.mysql.database.azure.com:3306/defaultdb'
-    username: managediduser
+    username: myadmin
+    password: ${MY_SQL_PASSWORD}
   sql:
     init:
       mode: always
