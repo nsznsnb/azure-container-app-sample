@@ -62,8 +62,7 @@ public class TodoListController {
     public List<Task> get(HttpServletRequest req, HttpServletResponse res) {
         try {
             return RetryTodoListService.executeCallable(() -> {
-              logger.info("Session ID: " + req.getSession().getId());
-                return service.queryTasksByUser(req.getSession().getId());
+                return service.queryTasksByUser(GetUserId(req));
             });
         } catch (Throwable ex) {
             logger.error("Failed to get tasks", ex);
@@ -77,8 +76,7 @@ public class TodoListController {
     public Map<String, String> put(@Valid @RequestBody FormTaskCreation form, HttpServletRequest req, HttpServletResponse res) {
         try {
             RetryTodoListService.executeCallable(() -> {
-              logger.info("Session ID: " + req.getSession().getId());
-                return service.createTask(req.getSession().getId(),
+                return service.createTask(GetUserId(req),
                  HtmlUtils.htmlEscape(form.title()),
                  HtmlUtils.htmlEscape(form.memo()),
                  LocalDate.parse(form.dueDate()));
@@ -105,7 +103,7 @@ public class TodoListController {
     try {
       numRow = RetryTodoListService.executeCallable(() -> {
         // return service.updateTaskById(req.getSession().getId(), form.id(), HtmlUtils.htmlEscape(form.title()),
-        return service.updateTaskById(req.getSession().getId(), form.id(), HtmlUtils.htmlEscape(form.title()), //第6章で使用
+        return service.updateTaskById(GetUserId(req), form.id(), HtmlUtils.htmlEscape(form.title()), //第6章で使用
             HtmlUtils.htmlEscape(form.memo()), TodoStatus.valueOf(form.status().toUpperCase()),
             LocalDate.parse(form.dueDate()));
       });
@@ -136,7 +134,7 @@ public class TodoListController {
     try {
       numRow = RetryTodoListService.executeCallable(() -> {
         // return service.deleteTaskById(req.getSession().getId(), form.id());
-        return service.deleteTaskById(req.getSession().getId(), form.id()); //第6章で使用
+        return service.deleteTaskById(GetUserId(req), form.id()); //第6章で使用
       });
     } catch (Throwable ex) {
       logger.error("Failed to delete Task", ex);
@@ -151,6 +149,14 @@ public class TodoListController {
     }
 
     return Map.of("status", "Succeeded");
+  }
+
+  private String GetUserId(HttpServletRequest req) {
+    String userId = req.getHeader("X-MS-CLIENT-PRINCIPAL-ID");
+    if (userId != null) {
+      userId = req.getSession().getId();
+    }
+    return userId;
   }
 
 }
