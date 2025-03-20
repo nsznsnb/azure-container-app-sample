@@ -153,7 +153,7 @@ public class TodoListController {
 
   private String GetUserId(HttpServletRequest req) {
     String userId = req.getHeader("X-MS-CLIENT-PRINCIPAL-ID");
-    if (userId != null) {
+    if (userId == null || userId.isEmpty()) {
       userId = req.getSession().getId();
     }
     return userId;
